@@ -1,0 +1,1139 @@
+%% This line is a comment, it is ignored and does not appear in a PDF
+\documentclass[12pt,oneside]{amsart}
+
+\usepackage{setspace}
+\setstretch{1.2}
+\usepackage{parskip}
+\usepackage{microtype}
+\usepackage[hidelinks]{hyperref}
+
+\usepackage[utf8]{inputenc}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage[alphabetic]{amsrefs}
+\usepackage{tabularx}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{etoolbox}
+\usepackage{tikz}
+\usepackage{enumitem}   
+\newtheorem*{claim}{Claim}
+\newtheorem*{theorem}{Theorem}
+\newtheorem*{lemma}{Lemma}
+
+\theoremstyle{definition}
+\newtheorem*{definition}{Definition}
+\newtheorem*{setup}{Set-up}
+\newtheorem*{example}{Example}
+\newtheorem*{anal}{Analogy}
+
+\newcommand{\R}{\mathbb{R}}                     % Reals
+\newcommand{\Z}{\mathbb{Z}}                     % Integers
+\newcommand{\C}{\mathbb{C}}                     % Complex numbers
+\newcommand{\N}{\mathbb{N}}                     % Natural numbers
+\newcommand{\Q}{\mathbb{Q}}                     % Rational  numbers
+\newcommand{\T}{\mathcal{T}}                    % Topology
+
+
+
+\usepackage[margin=1in]{geometry}
+
+\pagestyle{plain}
+
+\hypersetup{hidelinks,linktoc=all}
+\begin{document}
+\pagenumbering{arabic}
+\pagestyle{plain}
+
+
+
+% set your title and name
+\title{The Topologist Manifesto}
+
+\author{Richie Tay, William Hong, Nicholas Parrilla, Justin Hawkins, Vincent Nguyen}
+\maketitle
+
+\tableofcontents
+\newpage
+
+\section{Homework 1}
+\subsection{Topology / Topological Space}
+
+\begin{definition}
+    Let $X$ be a nonempty set. A set $\T$ of subsets $X$ is said to be a \textcolor{red}{topology} on $X$ if 
+    \begin{enumerate}
+        \item $X$ and the empty set $\emptyset$ belong to $\T$
+        \item The union of any number of sets in $\T$ belong in $\T$
+        \item The intersection of any two sets in $\T$ belong to $\T$
+    \end{enumerate}
+\end{definition}
+
+\begin{anal}
+    Imagine a topological space is a city, the points in the space are individual locations, like houses, shops and parks. The topology are the official map of the neighborhoods.
+    \par
+    Note: In this city neighborhood's can be shaped weirdly or "nonsensical".
+\end{anal}
+
+\begin{example}
+Suppose we have a city, there are multiple ways to make a neighborhood depending on the rules (topology).
+\begin{enumerate}
+    \item The Euclidean Topology: neighborhoods are like circular district around each location.
+    \item Discrete Topology: every single house is its own private gated neighborhood.
+    \item Trivial Topology: The whole city is one giant neighborhood
+\end{enumerate}
+\end{example}
+
+\begin{example}
+    Let $X=\{a,b,c,d,e,f\}$ and $\T_1=\{X, \emptyset, \{a\}, \{c,d\}, \{a,c,d\}, \{b,c,d,e,f\}\}$. This \textit{is} a topology since $X,\emptyset\in\T$, the $\{a\}\cap\{c,d\}=\emptyset$, $\{a,c,d\}\cup\{b,c,d,e,f\}=X$, the union of any numbers of sets in $\T$ is still in $\T$ and the intersection between and two sets in $\T$ is still in $\T$. 
+\end{example}
+
+\begin{example}
+    Let $X=\{a,b,c,d,e,\}$ and $\T_2=\{X, \emptyset, \{a\}, \{c,d\}, \{a,c,e\}, \{b,c,d\}\}$. This \textit{is not} a topology because $\{a\}\cup \{c,d\}=\{a,c,d\}\notin \T_2$. 
+\end{example}
+
+\begin{example}
+    Let $\N$ be the set of all natural numbers. Let $\T_3$ consist of $\N, \emptyset$ and all finite subsets of $\N$. Note then that $\T_3$ \textit{is not} a topology since the infinite union $\{2\}\cup \{3\}\cup \{4\}\cup\dots$ is an infinite set, which is not in $\T_3$ by construction.  
+\end{example}
+
+\subsection{Open Sets / Closed Sets}
+
+\begin{definition}
+    Let $(X, \T)$ be any topological space. Then the members of $\T$ are defined to be \textcolor{red}{open sets}.
+\end{definition}
+
+\begin{definition}
+Let $(X,\T)$ be a topological space. A subset $S\subset X$ is said to be a \textcolor{red}{closed set} in $(X,\T)$ if its complement in $X$ is open in $(X,\T)$.
+\end{definition}
+ 
+\begin{example}
+    Let $X=\{a,b,c,d,e,f\}$ and $\T_1=\{X, \emptyset, \{a\}, \{c,d\}, \{a,c,d\}, \{b,c,d,e,f\}\}$. The closed sets of $(X,\T)$ are the sets $X, \emptyset, \{b,c,d,e,f\}, \{a,b,e,d\}, \{b,e,f\}, \{a\}$. Notice in the example, that closed sets can be in $\T$. 
+\end{example}
+
+\begin{definition}
+    A \textcolor{red}{clopen} set in a topological space $(X,\T)$ is a set in $\T$ that is both open and closed. 
+\end{definition}
+
+\begin{example}
+    In the above example, the \textit{clopen} sets are $X, \emptyset, \{a\}, \{b,c,d,e,f\}$. 
+\end{example}
+
+\begin{example}
+    Let $(X,\T)$ be a topological space. The following are true about clopen sets: 
+
+    \begin{enumerate}
+        \item If $\T$ is any topology, $X$ and $\emptyset$ are always clopen. 
+        \item If $\T$ is the discrete topology, every set is clopen.
+        \item If $\T$ is the indiscrete topology, every set is clopen.  
+    \end{enumerate}
+\end{example}
+
+\begin{definition}
+    A \textcolor{red}{proper subset} of $X$ means $A\subset X$ and $A\neq X$. 
+\end{definition}
+
+\subsection{Discrete Topology / Discrete Space}
+
+\begin{definition}
+    Let $X$ be a non-empty set and let $\T$ be the collection of all subsets of $X$. Then $\T$ is called the \textcolor{red}{discrete topology} on the set $X$. 
+\end{definition}
+
+\begin{example}
+    Let $X=\{a,b,c\}$. The discrete topology on $X$ would be the topology 
+
+    \[
+    \T=\{X,\emptyset, \{a\}, \{b\}, \{c\}, \{a,b\}, \{a,c\}, \{b,c\}\}
+    \]
+\end{example}
+
+\begin{theorem}
+    If $(X,\T)$ is a topological space such that for all $x\in X$, $\{x\}\in \T$., then $\T$ is the discrete topology. 
+\end{theorem}
+
+\begin{proof}
+    Note every set is a union of all its singleton subsets. So let $S\subset X$. Then $S=\textstyle \bigcup_{x\in S}\{x\}$. By construction, since each $\{x\}\in \T$, then $S\in \T$. Since $S$ is arbitrary, then $\T$ is the discrete topology. 
+\end{proof}
+
+\subsection{Indiscrete Topology / Indiscrete Space}
+
+\begin{definition}
+    Let $X$ be any non-empty set and $\T=\{X, \emptyset\}$. Then $\T$ is called the \textcolor{red}{indiscrete topology}.
+\end{definition}
+ 
+
+\subsection{Finite-Closed Topology /  Cofinite Topology}
+
+
+\begin{definition}
+    Let $X$ be a non-empty set. A topology $\T$ on $X$ is a called the \textcolor{red}{finite-closed topology} or the \textcolor{red}{cofinite topology} if all closed subsets of $X$ are $X$ or finite subsets of $X$. In other words, the open sets are $\emptyset$ or all subsets have a finite complement. 
+\end{definition}
+
+\begin{example}
+    If $\N$ is the set of all positive integers, then the topology $\T$ consisting of infinite sets $\{ \bigcup_{k\geq n} \{k\} \mid n\in \N\}$ which are sets $\{1,2,3,...\}, \{2,3,4,...\}, \{3,4,5,...\}$ is a \textit{cofinite topology} since the complements of each of these (open) sets are finite. 
+\end{example}
+
+\begin{theorem}
+    Let $\T$ be a finite-closed topology on a set $X$. If $X$ has at least 3 disjoint clopen sets, $X$ must be finite. 
+\end{theorem}
+
+\begin{proof}
+    Since $(X,\ \T)$ has at least 3 distinct clopen sets, there exists $S\subset X$ such that $S\neq X$ ro $S\neq \emptyset$ that is clopen. Since $S$ is open in $(X,\T)$, this implies that the complement $X\backslash S$ is closed in $\T$. Thus $S$ and $X\backslash S$ are finite. So $X=S \cup X\backslash S$ must be finite. 
+\end{proof}
+
+\subsection{$T_0$-space and $T_1$-space}
+\begin{definition}
+    A topological space $(X,\T)$ is said to be a \textcolor{red}{$T_0$-space} if for each pair of distinct points $a,b$ in $X$, either there exists an open set containing $a$ and not $b$, or there exists an open set containing $b$ and not $a$.
+\end{definition}
+\begin{example}
+    \textbf{Example of a $T_0$-space.}
+    Let $X = \{0,1\}$ and $\T = \{\varnothing, \{0\}, X\}$. This is called the \emph{Sierpiński space}.
+\end{example}
+
+\begin{proof}
+    To check that $(X,\T)$ is $T_0$, take distinct points $0,1 \in X$.
+    The open set $\{0\}$ contains $0$ but not $1$, so the $T_0$ condition holds:
+    for any distinct $a,b \in X$, there exists an open set containing one but not the other.
+    Hence $(X,\T)$ is $T_0$.
+
+    However, $(X,\T)$ is not $T_1$ because $\{0\}$ is not closed:
+    its complement $\{1\}$ is not open.
+\end{proof}
+
+\begin{definition}
+    A topological space $X,\T$ is said to be a \textcolor{red}{$T_1$-space} if every singleton set $\{x\}$ is closed in $(X,\T)$.
+\end{definition}
+
+\begin{example}
+    \textbf{Example of a $T_1$-space.}
+    Let $X$ be any set and $\T = \mathcal{P}(X)$, the discrete topology.
+\end{example}
+
+\begin{proof}
+    In the discrete topology every subset of $X$ is open, in particular each singleton $\{x\}$.
+    Its complement $X \setminus \{x\}$ is also open, so $\{x\}$ is closed.
+    Since every singleton is closed, $(X,\T)$ is a $T_1$-space.
+\end{proof}
+
+\begin{theorem}
+    Every $T_1$-space is a $T_0$-space.
+\end{theorem}
+
+\begin{proof}
+    Let $(X,\T)$ be a $T_1$-space and let $a,b \in X$ with $a \neq b$.
+    Since $\{b\}$ is closed, its complement $X \setminus \{b\}$ is open and contains $a$ but not $b$.
+    Therefore there exists an open set containing one point but not the other.
+    Hence $(X,\T)$ is $T_0$.
+\end{proof}
+
+
+\newpage
+
+\section{Homework 2}
+\subsection{Euclidean Topology}
+
+
+\begin{definition}
+    A subset $S\subset \R$ is said to be open in the \textcolor{red}{Euclidean topology on $\R$} if it has the following property: For each $x\in S$, there exists $a,b\in \R$ with $a<b$ such that $x\in (a,b)\subset S$.
+\end{definition}
+
+\begin{example}
+    Let $r,s\in \R$ with $r<s$. In the Euclidean topology, $\T$ on $\R$, the open interval $(r,s)$ does indeed belong to $\R$ and so is an open set. Note if we set $a=r$ and $b=s$, $x\in(a,b)\subset (r,s)$. 
+\end{example}
+
+\begin{example}
+    The open intervals $(-\infty, r)$ and $(r, \infty)$ are open sets in the Euclidean topology. Note we can set $a=r$, $b=x+1$. Then $x\in (a, b)\subset (r, \infty)$, with symmetric argument for $(-\infty, r)$. 
+\end{example}
+
+We note here that not all open sets are open intervals in the Euclidean topology. 
+
+\begin{example}
+    For each $c,d\in \R$ with $c<d$, the closed interval $[c,d]$ is not an open set in $\R$.
+\begin{proof}
+    Seeking contradiction, suppose $[c,d]$ is open in the Euclidean topology. Then there exists an interval $(a,b)$ such that $x\in (a,b)\subset [c,d]$. Take $x=c$. Then by definition $a<c<b$. Consider the average between $a$ and $c$, so that $a<a+\frac{c-a}{2}<c<b$. We note then that $a+\frac{c-a}{2}$ should also be in the interval $[c,d]$. However, it is strictly less than $c$, and thus not in $[c,d]$. Therefore $[c,d]$ is not open. 
+\end{proof}
+\end{example}
+
+\begin{example}
+    Each singleton $\{a\}$ is closed in the Euclidean topology. Note that $(-\infty, a)\cup (a,\infty)$ is an open set in the Euclidean topology. Its complement in the topology must be closed.
+\end{example}
+
+\begin{theorem}
+    A subset $S$ of $\R$ is open if and only if it is a union of open intervals. 
+\end{theorem}
+
+\subsection{Intervals}
+
+\subsection{Basis}
+
+\begin{definition}
+    Let $(X,\T)$ be a topological space. A collection $\mathcal{B}$ of open subsets of $X$ is said to be a \textcolor{red}{basis} for the topology $\T$ if every open set is a union of members of $\mathcal{B}$. 
+\end{definition}
+
+\begin{anal}
+    Think of the basis as the building blocks of neighborhoods, like the original city planning. So the basis sets are the basic districts, like city blocks. Every other neighborhood in the city is made by piecing together unions of these basic districts.
+\end{anal}
+
+\begin{example}
+    In a grid like city, the basis could ball the city blocks, so all the neighborhoods are made by combining blocks together.
+\end{example}
+
+\begin{example}
+    Let $(X,\T)$ be a discrete topology on a set $X$. A basis for $\T$ is $\mathcal{B}=\{\{x\}\mid x\in X\}$. 
+\end{example}
+
+\begin{example}
+     Let $X=\{a,b,c,d,e,f\}$ and $\T_1=\{X, \emptyset, \{a\}, \{c,d\}, \{a,c,d\}, \{b,c,d,e,f\}\}$. Then $\mathcal{B}=\{\{a\}, \{c,d\}, \{b,c,d,e,f\}\}$ is a basis for $\T$ since every open set of $\T$ can be expressed as a union of $\mathcal{B}$.  
+\end{example}
+
+\begin{example}
+    Let $X=\{a,b,c\}$ and $\mathcal{B}=\{\{a\}, \{c\}, \{a,b\}, \{b,c\}\}$. Then $\mathcal{B}$ is not a basis for any topology on $X$. 
+\begin{proof}
+    We show this fact quite easily. Seeking contradiction, suppose $\mathcal{B}$ does form a basis for some topology $\T$. Then the union of all its sets forms the ``topology" 
+    \[
+    \T=\{X, \emptyset, \{a\}, \{c\}, \{a,b\}, \{a,c\}, \{b,c\}\}
+    \]
+
+    However, if this were a topology, it'd be closed under intersection. But $\{a,b\}\cap \{b,c\}=\{b\}\notin \T$.  
+\end{proof}
+\end{example}
+
+\begin{theorem}
+    Let $X$ be a non-empty set and let $\mathcal{B}$ be a collection of subsets of $X$. Then $\mathcal{B}$ is a basis for a topology on $C$ if and only if $\mathcal{B}$ has the following properties: 
+
+    \begin{enumerate}
+        \item $X=\bigcup_{B\in\mathcal{B}} B$
+        \item For any $B_1, B_2\in\mathcal{B}$, the set $B_1\cap B_2$ is a union of members of $\mathcal{B}$. 
+    \end{enumerate}
+\end{theorem}
+
+\subsection{Open/Closed Rectangles}
+
+\begin{definition}
+    Let $\mathcal{B}$ be the collection of all \textcolor{red}{open rectangles} $\{\langle x,y\rangle \mid a<x<b, c<y<d, \text{ where } a,b,c,d \in \R$ in $\R^2$. Then $\mathcal{B}$ is a basis for the topology in the plane $\R^2$. 
+\end{definition}
+
+\subsection{Euclidean Topology on $\R^n$}
+
+\begin{definition}
+    Let $\R^n=\{\langle x_1, x_2, ..., x_n\rangle \mid x_i\in \R, i=1,2,...,n\}$ for each integer $n>2$. We let $\mathcal{B}$ be the collection of all subsets $\{\langle x_1, x_2, ..., x_n\rangle \in \R^n \mid a_i<x_i<b_i, i=1,2,...n\}$ of $\R^n$ with sides parallel to the axes. The collection $\mathcal{B}$ is a basis for \textcolor{red}{the Euclidean topology on $\R^n$}. 
+\end{definition}
+
+\begin{example}
+    Let $\mathcal{B}$ be a collection of all half-open intervals of the form $(a, b]$, $a<b$. Then $\mathcal{B}$ forms a basis for a topology on $\R$. Note since each basis element is a half-open interval, the union (and finite intersection) between half-open intervals is half-open. However, the topology $\T_1$ which has $\mathcal{B}$ as its basis is not the Euclidean topology on $\R$. Notice that $(a,b]$ is not open in the Euclidean topology, so it cannot be a basis.  
+\end{example}
+
+\begin{theorem}
+    Let $(X,\T)$ be a topological space. A family $\mathcal{B}$ of open subsets of $X$ is a basis for $\T$ if and only if for any point $x$ belonging to an open set $U$, there is a $B\in \mathcal{B}$ such that $x\in B\subset U$. 
+\end{theorem}
+
+\begin{theorem}
+    Let $\mathcal{B}$ be a basis for a topology $\T$ on a set $X$. Then a subset $U\subset X$ is open if and only if for each $x\in U$, there exists a $B\in\mathcal{B}$ such that $x\in B\subset U$.  
+\end{theorem}
+
+\begin{theorem}
+    Let $\mathcal{B}_1$ and $\mathcal{B}_2$ be bases for topologies $\T_1$ and $\T_2$ respectively on a non-empty set $X$. Then $\T_1=\T_2$ if and only if both of the following conditions hold: 
+
+    \begin{enumerate}
+        \item For each $B\in \mathcal{B}_1$ and each $x\in B$, there exists a $B'\in\mathcal{B}_2$ such that $x\in B'\subset B$
+        \item For each $B'\in \mathcal{B}_2$ and each $x\in B'$, there exists a $B\in\mathcal{B}_1$ such that $x\in B\subset B'$ 
+    \end{enumerate}
+\end{theorem}
+
+\begin{example}
+    Show that the set $\mathcal{B}$ of all ``open equilateral triangles" with base parallel to the $x$-axis is a basis for the Euclidean topology on $\R^2$ (by open we mean that the boundary is not included). 
+
+    \textit{Outline of proof:} We want to show that $\mathcal{B}$ is a Euclidean topology. We do this by showing that $\mathcal{B}$ is a basis for some topology on $\R^2$. Then we use the topology equivalence relation above. 
+
+    1: let $R$ be an open rectangle with sides parallel to the axes and $x$ be any point in $R$. We have to show that there is an open equivalent triangle $T$ with pase parallel to the $x$-axis such that $x\in T\subset R$. 
+    2. Let $T'$ be an open equilateral triangle with base parallel to the $x$-axis and $y$ be any point in $T'$. It suffices to show that there is an open rectangle $R'$ such that $y\in R'\subset T'$. 
+    We illustrate this fact below. 
+\vspace{0.2cm}
+\begin{center}
+\begin{tikzpicture}
+
+\begin{scope}
+    \draw[dotted, thick] (0,0) rectangle (3,3);
+    
+    \draw[dotted, thick] (0.5,0.5) -- (2.5,0.5) -- (1.5,2.5) -- cycle;
+    
+    \fill (1.5,1.3) circle (2pt) node[below right] {\(x\)};
+\end{scope}
+
+\begin{scope}[xshift=5cm]
+    \draw[dotted, thick] (0,0) -- (3,0) -- (1.5,2.6) -- cycle;
+    
+    \draw[dotted, thick] (1,0.6) rectangle (2,1.6);
+    
+    \fill (1.5,1.1) circle (2pt) node[below right] {\(y\)};
+\end{scope}
+
+\end{tikzpicture}
+\end{center}
+\vspace{0.2cm}
+
+    By the above theorem, we know that $\mathcal{B}$ is a basis for the Euclidean topology. 
+\end{example}
+
+\subsection{Subbasis}
+
+\begin{definition}
+    Let $(X,\T)$ be a topological space. A non-empty collection $S$ of open subsets of $X$ is said to be a \textcolor{red}{subbasis} for $\T$ if the collection of all finite intersections of members of $S$ for a basis for $\T$ 
+\end{definition}
+
+\textbf{(i)} The collection of open intervals $(a,\infty)$ and $(\infty, b)$ form a subbasis for the Euclidean topology on $\R$. 
+
+\begin{proof}
+    Note a basis for the Euclidean topology on $\R$ is the set $\mathcal{B}=\{(a,b)\mid a<b \text{ and } a,b\in\R\}$. Note then that for $a<b$, the intersection $(a,\infty)\cap(-\infty, b)=(a,b)$. Since $a,b\in \R$ are arbitrary, the union of the uncountable intersection forms the basis $\mathcal{B}$ for the Euclidean topology.  
+\end{proof}
+
+\textbf{(ii)} $\mathcal{S}=\{\{a\}, \{a,c,d\}, \{b,c,d,e,f\}\}$ is a subbasis for $\T_1=\{X, \emptyset, \{a\}, \{a,c\}, \{a,c,d\}, \{b,c,d,e,f\}\} $ where $X=\{a,b,c,d,e,f\}$.
+
+\begin{proof}
+     Let $X=\{a,b,c,d,e,f\}$ and $\T_1=\{X, \emptyset, \{a\}, \{c,d\}, \{a,c,d\}, \{b,c,d,e,f\}\}$. $\mathcal{B}=\{\{a\}, \{c,d\}, \{b,c,d,e,f\}\}$ is a basis for $\T_1$. We show that intersections of elements in $\mathcal{S}$ form $\mathcal{B}$. Since $\{a\}$ and $\{b,c,d,e,f\}$ are already elements of $\mathcal{B}$ and $\mathcal{S}$, they are the intersections of themselves. Note that in $\mathcal{B}$, that $\{c,d\}=\{b,c,d,e,f\}\cap\{a,c,d\}$. Thus we know that $\mathcal{S}$ is a subbasis for $\mathcal{B}$. 
+\end{proof}
+
+\subsection{Product Topology}
+
+\begin{definition}
+    If $X$ and $Y$ are topological spaces, the \textcolor{red}{product topology} on $X\times Y$ is the topology formed from all ordered pairs $\langle x,y\rangle$ for $x\in X$ and $y\in Y$.  
+\end{definition}
+
+\begin{theorem}
+    If $\mathcal{B}_1$ is a basis on $\T_1$ for $X$ and $\mathcal{B_2}$ is a basis for $\T_2$ on $Y$. The basis for a product topology $X\times Y$ with topology $\T_1\times \T_2$ has basis $\mathcal{B}_1\times \mathcal{B}_2$. 
+\end{theorem}
+
+\newpage
+
+\section{Homework 3}
+
+\subsection{Limit Points}
+
+\begin{definition}
+    Let $A$ be a subset of a topological space $(X, \T)$. A point $x\in X$ is said to be a \textcolor{red}{limit point of $A$} if every open set $U$ containing $x$ contains a point of $A$ different from $x$.
+\end{definition}
+
+\begin{anal}
+    In all of Kyle's friend groups, there is at least 1 furry. Even though Kyle is not a furry, he is the limit point of furries.
+\end{anal}
+
+\begin{anal}
+    Suppose coffee shops are scattered all long Main Street. Then every point on Main Street is a limit point of the set of coffee shops. because wherever you are along the street, there is another coffee shop.
+    \par
+    If there's just one isolated coffee shop in the middle of a park and no others around, the that point itself is not a limit point, since its neighborhood does not contain other coffee shops.
+\end{anal}
+
+\begin{example}
+    Let $X=\{a,b,c,d,e,f\}$ and $\T=\{X, \emptyset, \{a\}, \{c,d\}, \{a,c,d\}, \{b,c,d,e,f\}\}$. Let $A=\{a,b,c\}$. Then $b,d,e,f$ are limit points of $A$ in $\T$. 
+
+    \textit{Proof:} $\{a\}$ is open but does not contain any other points besides itself, so $\{a\}$ is not a limit point of $A$. $\{c,d\}$ is open in $\T$ but does not contains any points from $A$ besides $c$. So $c$ is not a limit point of $A$. The only sets containing $b$ are the sets $X$ and $\{b,c,d,e,f\}$. Since both of these sets contain $c$, which is distinct from $b$ and also in $A$, $b$ is a limit point of the set $A$ in $\T$. Similar reasoning can be shown for $d,e,f$. 
+\end{example}
+
+\begin{theorem}
+    Let $A$ be a subset of a topological space $(X,\T)$. Then $A$ is closed in $(X,\T)$ if and only if $A$ contains all of its limit points. 
+\end{theorem}
+
+\begin{example}
+    \begin{enumerate}
+        \item The set $[a,b)$ is \textit{not closed} in $\R$ since $b$ is a limit point but $b\notin [a,b)$. 
+        \item The set $[a,b]$ is \textit{closed} in $\R$ since the limit point $s$ of $[a,b]$ are in $[a,b]$
+        \item The set $(a,b)$ is \textit{not closed} in $\R$ since it does not contain the limit point $a$. 
+    \end{enumerate}
+\end{example}
+
+\begin{example}
+    Consider the subset $A=[a,b)$ of $\R$. Every element of $[a,b)$ is a limit point of $A$. Notice $b$ is also a limit point of $A$. 
+\end{example}
+    
+\subsection{Closure}
+
+\begin{claim}
+    Let $A$ be a subset of a topological space $(X, \T)$ and $A'$ be the set consisting of all the limit points of $A$. Then $A\cup A' $ is closed. 
+\end{claim}
+
+\begin{definition}
+    Let $A$ be a subset of a topological space $(X, \T)$ . Then the set $A\cup A'$ consisting of $A$ and all of its limit points is called the \textcolor{red}{closure of $A$} and is denoted by \textcolor{red}{$\overline{A}$}. 
+\end{definition}
+
+\begin{anal}
+    Two pointers are closed, and threes are open. For three pointers, no matter where you stand, you can have an open ball around your feet.
+\end{anal}
+
+\begin{example}
+    Let $X=\{a,b,c,d,e,f\}$ and $\T=\{X, \emptyset, \{a\}, \{c,d\}, \{a,c,d\}, \{b,c,d,e,f\}\}$. Let $A=\{a,b,c\}$. We recall that $b,d,e,f$ are limit points of $A$ in $\T$. The closure $\overline{A}=A\cup A'=\{a,b,c\}\cup\{b,d,e,f\}=\{a,b,c,d,e,f\}$.  
+\end{example}
+
+Note that the closure of a set is the smallest closed set containing $A$ for all $A$. 
+
+\begin{example}
+    Let $\Q$ be the subset of $\R$ consisting of all the rational numbers. Prove that $\overline{\Q}=\R$. 
+
+    \textit{Proof:} Suppose $\overline{\Q}\neq\R$. Then there exists an $x\in \R\backslash \overline{\Q}$. Thus $\R\backslash \overline{\Q}$ is open in $\R$. There exists $a,b$ with $a<b$ such that $x\in (a,b)\subset \R\backslash\overline{\Q}$. However, in every interval, there exists a rational number $q\in (a,b)$. That is, $q\in \R\backslash\overline{\Q}$, which implies $q\in \R\backslash\Q$, which is false. Thus $\overline{\Q}=\R$. 
+\end{example}
+
+\subsection{Dense}
+
+\begin{definition}
+    Let $A$ be a subset of a topological space $(X, \T)$. Then $A$ is said to be \textcolor{red}{dense} in $X$ or \textcolor{red}{everywhere dense} in $X$ if $\overline{A}=X$. 
+\end{definition}
+
+\begin{anal}
+    Imagine a city, and there are stores scattered througout the city. A set of stores is dense if no matter where you are in the city, you are arbitrarily close to a store. In other words, every neighborhood, no matter how small, has at least one store.
+\end{anal}
+
+\begin{example}
+    Let $(X,\T)$ be the discrete topology on a set $X$. Every subset of $X$ is closed (since its complement is open). Therefore, the only dense subset of $\T$ is $X$, since the closure of any other set $K$ is itself ($\overline{K}=K$). 
+\end{example}
+
+\subsection{Neighborhood}
+
+\begin{claim}
+    Let $A$ be a subset of a topological space $(X,\T)$. Then $A$ is dense in $X$ if and only if every non-empty open subset of $XD$ intersects $A$ non-trivially (if $U\in \T$ and $U\neq \emptyset$, then $A\cap U\neq \emptyset$). 
+\end{claim}
+
+\begin{definition}
+    Let $(X, \T)$ be a topological space, $N$ a subset of $X$ and $p$ a point in $N$. Then $N$ is said to be a \textcolor{red}{neighborhood} of the $p$ if there exists an open set $U$ such that $p\in U\subset N$. 
+\end{definition}
+
+\begin{example}
+    The closed interval $[0,1]$ in $\R$ with the Euclidean topology is a neighborhood of the point $1/2$ since the interval $(1/4, 3/4)$ lies entirely in $[0,1]$ and contains $1/2$. However, the point $0$ is \textit{not} in the neighborhood of $[0,1]$ since we cannot find an open set entirely contained in $[0,1]$. 
+\end{example}
+
+\begin{claim}
+    Let $A$ be a subset of a topological space $(X,\T)$. A point $x\in X$ is a limit point of $A$ if and only if every neighborhood of $x$ contains a point of $A$ different from $x$. 
+\end{claim}
+
+\subsection{Supremum}
+\begin{theorem}
+\textbf{(Least upper bound axiom)}: Let $S$ be a non-empty set of real numbers. If $S$ is bounded above, then it has a least upper bound.
+\end{theorem}
+\begin{definition}
+The least upper bound of a set $S$ is called the \textcolor{red}{supremum}, denoted $\sup(S)$.
+\end{definition}
+
+\subsection{Infimum}
+\begin{definition}
+The greatest lower bound of a set $S$ is called the \textcolor{red}{infimum}, written $\inf(S)$.
+\end{definition}
+
+\subsection{Connectedness}
+
+\begin{definition}
+    Let $(X,\T)$ be a topological space. $(X,\T)$ is said to be \textcolor{red}{connected} if the only clopen sets in $\T$ are $X$ and $\emptyset$. 
+\end{definition}
+
+\begin{example}
+    If $(X,\T)$ is any discrete topology with more than one element, then $(X, \T)$ is \textit{not connected} since each open subset is also closed. 
+\end{example}
+
+\begin{definition}
+    A topological space $(X,\T)$ is \textcolor{red}{disconnected} if it is not connected. 
+\end{definition}
+
+\subsection{Disconnectedness}
+\begin{theorem}
+    A topological space $(X,\T)$ is disconnected if and only if there exist nonempty, disjoint open sets $U$ and $V$ such that $X = U \cup V$.
+\end{theorem}
+
+\begin{proof}
+    $(\Rightarrow)$ Suppose $X$ is disconnected. Then there exists a nontrivial clopen set $U$ with $\emptyset \neq U \neq X$.
+    Let $V = X \setminus U$. Since $U$ is clopen, $V$ is also open. Then $U$ and $V$ are nonempty, disjoint, open, and their union is $X$.
+
+    $(\Leftarrow)$ Conversely, suppose there exist nonempty, disjoint open sets $U,V$ with $X = U \cup V$.
+    Then $U = X \setminus V$ is both open and closed, so $U$ is a nontrivial clopen set. Hence $X$ is disconnected.
+\end{proof}
+
+\begin{example}
+    In $\mathbb{R}$ with the standard topology, the set $A = (-\infty, 0) \cup (0, \infty)$ is disconnected, since
+    $A = U \cup V$ with $U = (-\infty, 0)$ and $V = (0, \infty)$ are nonempty, disjoint, and open in the subspace topology.
+\end{example}
+
+\subsection{Separable}
+\begin{definition}
+    A topological space $(X,\T)$ is said to be \textcolor{red}{separable} if it has a dense subset which is countable
+\end{definition}
+\begin{theorem}
+Every compact metric space $(X,d)$ is separable.
+\end{theorem}
+
+\begin{proof}
+For each $n\in\mathbb{N}$ consider the open cover of $X$ by balls of radius $1/n$:
+\[
+\mathcal{U}_n=\{B_{1/n}(x):x\in X\}.
+\]
+Compactness of $X$ implies that $\mathcal{U}_n$ has a finite subcover; write it as
+\[
+\mathcal{U}_n'=\{B_{1/n}(x_{n,1}),\dots,B_{1/n}(x_{n,k_n})\}.
+\]
+Let
+\[
+A=\bigcup_{n=1}^\infty\{x_{n,1},\dots,x_{n,k_n}\}.
+\]
+Each set $\{x_{n,1},\dots,x_{n,k_n}\}$ is finite, hence $A$ is a countable union of finite sets and therefore countable.
+
+It remains to show $A$ is dense in $X$. Fix $y\in X$ and $\varepsilon>0$. Choose $n\in\mathbb{N}$ with $1/n<\varepsilon$. The finite subcover $\mathcal{U}_n'$ covers $X$, so $y\in B_{1/n}(x_{n,i})$ for some $i$, and thus
+\[
+d(y,x_{n,i})<1/n<\varepsilon.
+\]
+Therefore every open ball around $y$ meets $A$, so $\overline{A}=X$. Hence $A$ is a countable dense subset of $X$, and $X$ is separable.
+\end{proof}
+\begin{anal}
+    
+\end{anal}
+
+\subsection{Interior}
+\begin{definition}
+    Let $(X,\T)$ be a topological space and $A$ any subset of $X$. The largest open set contained in $A$ is called the \textcolor{red}{interior of} A and is denoted by \textcolor{red}{Int$(A)$}.
+\end{definition}
+
+\newpage
+
+\section{Homework 4}
+\subsection{Subspace / Subspace Topology}
+\begin{definition}
+    Let $Y$ be a non-empty subset of a topological space $(X, \T)$. The collection $\T_Y = \{O \cap Y : O \in \T\}$ of subsets of $Y$ is a topology on $Y$ called the \textcolor{red}{subspace topology} (or the induced topology). The topological space $(Y, \T_Y)$ is said to be a \textcolor{red}{subspace} of $(X, \T)$
+\end{definition}
+
+\begin{anal}
+    Imagine the whole topological space $X$ is like a country with all its towns and neighborhoods. The topology $\T$ tells you which regions of the country are considered "open" neighborhoods. Suppose we pick a city $A \subseteq X$ inside the country, and you want to talk about the neighborhoods within the city. A set $U$ is an open neighborhood in the city if there was already a neighborhood $V$ in the country such that $U = V \cap A$. In other words, the city only inherits openness from the country. It does not invent new neighborhoods on its own.
+\end{anal}
+
+\begin{example}
+    Suppose the country is $\R$ with euclidean topology, and consider open intervals as neighborhoods. The city is the interval $[0,1]$. In the city, the "open neighborhoods" are things like $(0.2,0.5)$ or $[0,1)$ because they come from intersecting a real open interval like $(-1,0.1)$ or $(0.2,0.5)$ with the city $[0,1]$. Notice that $[0,0.1)$ is not open in the country, but it is open in the city. It is like a neighborhood that only makes sense once you are restricted to living inside the city.
+\end{example}
+
+\begin{example}
+    
+\end{example}
+
+\subsection{Hausdorff / $T^2$ Space}
+\begin{definition}
+    A topological space $(X,\T)$ is said to be \textcolor{red}{Hausdorff} (or a \textcolor{red}{$T_2$-space}) if given any pair of distinct points $a,b$ in $X$ there exist open sets $U$ and $V$ such that $a \in U$, $b \in V$, and $U \cap V =\emptyset $. In other words, for any two distinct points, you can separtate them with disjoint open neighborhoods.
+\end{definition}
+
+\begin{anal}
+    Imagine two friends, Alice and Bob. In some social settings (spaces), no matter where they stand, you can always find a way to give them each their own personal bubble (open neighborhoods) that do no overlap. 
+\end{anal}
+
+\begin{example}
+    If Alice is standing at $x = 2$ and Bob is at $x = 5$, you can draw an interval around each, $(1.5,2.5)$ and $(4.5,5.5)$. These intervals do not touch, so each person has personal space.
+\end{example}
+
+
+\subsection{Regular / $T^3$ Space}
+\begin{definition}
+    A topological space $(X,\T)$ is said to be \textcolor{red}{regular space} if for any closed subset $A$ of $X$ and any point $x \in X \backslash A$, there exist open sets $U$ and $V$ such that $x \in U$, $A \subseteq V$, and $U \cap V = \emptyset$. If $(X, \T)$ is regular and a $T_1$-space, then it is said to be a \textcolor{red}{$T_3$-space}
+\end{definition}
+
+\begin{anal}
+    Imagine you are at a party in a big hall (space). You are standing somewhere $(x)$. There's a group of people sitting in a reserved section $(A)$, and you are not part of that group. If the hall is a regular space, the host can always arrange things so, you get your own personal bubble ($U$) (open neighborhood around $x$), the group gets their own section ($V$) (open neighborhood around $A$). The most important thing is that the two sections do not overlap.
+\end{anal}
+
+\begin{example}
+    If you are standing at $x = 2$, and a group is at $[5,6]$ (the closed set). Then you can have a personal bubble of $(1.5,2.5)$ ($U$) and the groups bubble be $(4.5,6.5)$ ($V$). The bubbles do not overlap.
+\end{example}
+
+\subsection{Homeomorphism}
+\begin{definition}
+    Let $(X,\T)$ and $(Y,\T_1)$ be topological spaces. Then they are said to be \textcolor{red}{homeomorphic} if there exists a function $f: X \rightarrow Y$ which has the following properties:
+    \begin{enumerate}
+        \item $f$ is injective or one-to-one (that is $f(x_1) = f(x_2) \Rightarrow x_1 = x_2$)
+        \item $f$ is surjective or onto (that is, for any $y \in Y$, there exists an $x \in X$ such that $f(x) = y$)
+        \item for each $U \in \T_1$, $f^{-1}(U) \in \T$
+        \item for each $V \in \T$, $f(v) \in \T_1$
+    \end{enumerate}
+    We say the map $f$ is a \textcolor{red}{homeomorphism} between $(X,\T)$ and $(Y ,\T_1)$. We write $(X,\T) \cong (Y,\T_1)$. In other words, homeomorphism show that structurally, two topologies are identical, even if they look different.
+\end{definition}
+
+\begin{anal}
+    Imagine you have a clay model of a coffee mug, and a clay model of a doughnut. If the clay is infinitely stretchy, you can deform the mug into the doughnut without cutting or gluing (pull the handle into a hole). The deformation corresponds to a homeomorphism: the two shapes are topologically the same. In other words, a homeomorphism is like a perfect reshape: you can bend, stretch, twist, or squish, but never tear or stick new pieces together.
+\end{anal}
+
+\subsection{Equivalence Relation}
+
+\subsection{Continuous}
+\begin{definition}
+    Let $(X,\T)$ and $(Y,\T_1)$ be topological spaces and $f$ a function from $X$ into $Y$. Then $f:(X,\T) \rightarrow (Y,\T_1)$ is said to be a \textcolor{red}{continuous mapping} if for each $U \in \T_1$, $f^{-1}(U) \in \T$
+\end{definition}
+
+\begin{anal}
+    Imagine a rubber sheet stretched out flat. A continuous mapping is like pressing or stretching the sheet without tearing it or create any holes. Points on the sheet can move around, but you cannot jump a point from one location to a completely unrelated spot. In other words, small movements in the original sheet corresponds to a small movement into the mapped sheet.
+\end{anal}
+
+\subsection{Separable}
+\begin{definition}
+    A topological space $(X,\T)$ is said to be separable if it has a dense subset which is countable
+\end{definition}
+
+\begin{anal}
+    Imagine a huge concert hall filled with people. A space is separable if there is countable set of people (think about a spotlight shining on them) such that everywhere you look in the hall, you can see at least one spotlight nearby.
+\end{anal}
+
+\subsection{Interior}
+
+\subsection{Interval}
+\begin{definition}
+    A subset $S$ of $\R$ is said to be an \textcolor{red}{interval} if it has the following property: if $x\in S$, $z \in S$, and $y \in \R$ are such that $x < y < z$, then $y\in S$.
+\end{definition}
+
+\newpage
+
+\section{Homework 5}
+
+\subsection{Continuous Map}
+\begin{definition}
+    Let $(X,\T)$ and $(Y,\T_1)$ be topological spaces and $f$ a function from $X$ into $Y$. Then $f:(X,\T) \rightarrow (Y,\T_1)$ is said to be a \textcolor{red}{continuous mapping} if for each $U \in \T_1$, $f^{-1}(U) \in \T$
+\end{definition}
+
+\begin{anal}
+    Imagine a rubber sheet stretched out flat. A continuous mapping is like pressing or stretching the sheet without tearing it or create any holes. Points on the sheet can move around, but you cannot jump a point from one location to a completely unrelated spot. In other words, small movements in the original sheet corresponds to a small movement into the mapped sheet.
+\end{anal}
+
+\subsection{Intermediate Value Theorem}
+\begin{definition}
+    Let $f: [a,b] \rightarrow \R$ be continuous and let $f(a) \neq f(b)$. Then for every number $p$ between $f(a)$ and $f(b)$ there is a point $c \in [a,b]$ such that $f(c) = p$
+\end{definition}
+
+\subsection{Disconnected}
+
+\subsection{Path-Connected}
+\begin{definition}
+    A topological space $(X,\T)$ is said to be \textcolor{red}{path-connected} if for each pair of distinct points $a$ and $b$ of $X$ there exists a continuous mapping $f: [0,1] \rightarrow (X,\T)$, such that $f(0) = a$ and $f(1) = b$
+\end{definition}
+\begin{anal}
+    Imagine you're standing in a park, a space is path-connected if, not matter which two spots in the park you pick, you can always walk along some path inside the park to get from one to the other with leaving the park. Note, the path does not need to be straight, but you must stay within the park.
+    \par
+    If the park has a lake that completely cuts through it, splitting the park into two disjoint areas, then the park is not path-connected.
+\end{anal}
+
+\subsection{Fixed Point Theorem}
+\begin{definition}
+    Let $f$ be a continuous mapping of $[0,1]$ into $[0,1]$. Then there exists a $z\in [0,1]$ such that $f(z) = z$ 
+\end{definition}
+
+\subsection{Connected Component}
+
+\newpage
+
+\section{Homework 6}
+\subsection{Metric Spaces}
+\begin{definition}
+Let X be a non-empty set and \textit{d} a real-valued function on X$\times$X such that for $a,b \in X$:
+    \begin{enumerate}[label=(\roman*)]
+        \item $d(a,b) \geq 0$ and $d(a,b)=0$ iff a=b
+        \item d(a,b) = d(b,a)
+        \item $d(a,c) \leq d(a,b) + d(b,c)$ (triangle inequality)
+    \end{enumerate}
+Then \textit{d} is said to be a \textcolor{red}{metric} on $X$, $(X,d)$ is called \textcolor{red}{metric space}, and $d(a,b)$ is referred to as the \textcolor{red}{distance} between $a$ and $b$. 
+\end{definition}
+
+
+\begin{definition}
+The function $d: \mathbb{R} \times \mathbb{R} \to \mathbb{R}$ given by: $$d(a,b) = |a-b|$$
+for $a,b \in \mathbb{R}$ is a metric on the set $\mathbb{R}$ since:
+    \begin{enumerate}[label=(\roman*)]
+        \item $|a - b| \geq 0$ for all $a,b \in \mathbb{R}$ and  $|a - b|=0$ iff a=b
+        \item $|a-b| = |b - a|$
+        \item $|a - c| \leq |a -b| + |b - c|$ (deduce from $|x+y| \leq |x| + |y|$)
+    \end{enumerate}
+We can \textit{d} the \textcolor{red}{euclidean metric} on $\mathbb{R}$.
+
+
+The function $d: \mathbb{R}^2\times \mathbb{R}^2 \to \mathbb{R}$ given by:
+\begin{align*}
+    d(\langle a_1, a_2 \rangle, \langle b_1, b_2\rangle) = \sqrt{(a_1 - b_1)^2 + (a_2 - b_2)^2}
+\end{align*}
+is the \textcolor{red}{euclidean metric on} $\mathbb{R}^2$
+\end{definition} 
+
+
+\begin{definition}
+Let $X$ be a non-empty set and $d$ the function on $X \times X$ into $\mathbb{R}$ defined by:
+\begin{align*}
+    d(a,b) = \begin{cases}
+       0,  & a = b \\
+       1, & a \neq b
+    \end{cases}
+\end{align*}
+Then \textit{d} is a metric on $X$ and is called the \textcolor{red}{discrete metric}.
+\end{definition}
+
+\begin{definition}
+Let $V$ be a vector space over the field of real or complex numbers. A \textcolor{red}{norm $||\cdot ||$} on $V$ is a map $:V \to \mathbb{R}$ such that for all $a,b \in V$ and $\lambda$ in the field:
+\begin{enumerate}[label=(\roman*)]
+    \item $||a|| \geq 0$ and $||a|| = 0$ iff a = 0
+    \item $||a+b|| \leq ||a|| +||b||$
+    \item $||\lambda a|| = |\lambda| ||a||$
+\end{enumerate}
+A \textcolor{red}{normed vector space} $(V, ||\cdot ||)$ is a vector space $V$ with a norm $||\cdot ||$. For any normed vector spce, there is a corresponding metric $d$ given by $d(a,b) = ||a-b||$ for $a,b \in V$. So every normed vector space is also a metric space.
+\end{definition}
+
+\begin{definition}
+Let $(X, d)$ be a metric space and $r$ any positive real number. THen the \textcolor{red}{open ball about $a\in X$ of radius $r$} is the set $B_r(a) = \{ x: x\in X \text{ and } d(a,x) < r \}$.
+\end{definition}
+
+
+\begin{definition}
+Consider the metric space $(X, d)$. The collection of open balls in $(X,d)$ is a basis for a topology $\tau$ on $X$. The topology $\tau$ is referred to as \textcolor{red}{the topology induced by the metric d} and $(X, \tau)$ is called \textcolor{red}{the induced topological space}.
+\end{definition}
+
+
+\begin{definition}
+Metrics on a set $X$ are said to be \textcolor{red}{equivalent} if they induce the same topology on $X$.
+\end{definition}
+
+\begin{theorem}
+Let $(X,d)$ be a metric space and $\tau$ the topology induced on $X$ by the metric $d$. Then a subset $U$ of $X$ is open in $(X, \tau)$ if and only if for each $a \in U$ there exists an $\epsilon > 0$ such that the open ball $B_\epsilon (a) \subseteq U$.
+\end{theorem}
+
+\begin{definition}
+A topological space $(X, \tau)$ is said to be \textcolor{red}{Hausdorff} (or a \textcolor{red}{$T_2$-space}) if for each pair of distinct points $a$ and $b$ in $X$, there exists open sets $U$ and $V$ such that $a \in U, b \in V$, and $U \bigcap V = \emptyset$
+\end{definition}
+
+\begin{theorem}
+Let $(X, d)$ be any metric space and $\tau$ the topology on $X$ induced by $d$. Then $(X, \tau)$ is a Hausdorff space.
+\end{theorem}
+
+
+\begin{definition}
+A space $X, \tau$ is said to be \textcolor{red}{metrizable} if there exists a metric $d$ on the set $X$ with the property that $\tau$ is the topology induced by $d$. For example. the set $\mathbb{Z}$ with the finite-closed topology is \textbf{not} a metrizable space. \textbf{Warning}: not every Hausdorff space is metrizable.
+\end{definition}
+
+\begin{definition}
+A topological space $(X, \tau)$ is said to satisfy the \textcolor{red}{first axiom of countability} or be \textcolor{red}{first countable} if for each $x \in X$ there exists a countable familiy $\{U_i(x)\}$ of open sets containing $x$ with the property that every open set $V$ containing $x$ has (at least) one of the $U_i(x)$ as a subset. The countable family $\{U_i(X)\}$ is said to be a \textcolor{red}{countable base} at $x$.
+\end{definition}
+
+\begin{theorem}
+Every metrizable space satisfies the first axiom of countability.
+\end{theorem}
+
+\begin{theorem}
+Every topological space satisfying the second axiom of countability also satisfies the first axiom of countability.
+\end{theorem}
+
+\begin{definition}
+Let $(X,d)$ be a metric space and $x_1, ..., x_n,...$ a sequence of point in $X$. Then the sequence is said to \textcolor{red}{converge to} $x \in X$ if given any $\epsilon > 0$ there exists an integer $n_0$ such that for all $n \geq n_0$, $d(x, x_n) < \epsilon$. This is denoted by \textcolor{red}{$x_n \to x$}. The sequence $y_1, y_2, ..., y_n,...$ of points in $(X,d)$ is said to be \textcolor{red}{convergent} if there exists a point $y \in X$ such that $y_n \to y$.
+\end{definition}
+
+
+\begin{definition}
+Let $A$ and $B$ be non-empty set in a metric space $(X,d)$. Define:
+\begin{align*}
+    \rho (A,B) = \inf\{d(a,b): a\in A, b\in B\}
+\end{align*}
+which is referred to as the \textcolor{red}{distance between the sets A and B}.
+\end{definition}
+
+\newpage
+\section{Homework 7}
+\begin{definition}
+A sequence $x_1, x_2, ..., x_n,...$ of points in a metric space $(X,d)$ is said to be a \textcolor{red}{Cauchy sequence} if given any real number $\epsilon > 0$, there exists a positive integer $n_0$ such that for all integers $m \geq n_0$ and $n \geq n_0, d(x_m, x_n) < \epsilon$.
+\\
+\textbf{Note}: Convergent sequences are Cauchy.
+\end{definition}
+
+\begin{theorem}
+Let $x_1, x_2, ..., x_n, ...$ be a sequence of points in a metric space $(X, d)$. Further, let $x$ and $y$ be points in $(X, d)$ such that $x_n \to x$ and $x_n \to y$. Then $x=y$. 
+\end{theorem}
+
+\begin{theorem}
+Let $(X,d)$ be a metric space. A subset $A$ of $X$ is closed in $(X,d)$ if and only if every convergent sequence of points in $A$ converges to a point in $A$. This means that $A$ is closed in $(X,d)$ if and only if $a_n \to x$, where $x \in X$ and $a_n \in A$ for all $n$ implies $x \in A$.
+\end{theorem}
+
+\begin{theorem}
+Let $(X,d)$ and $(Y, d_1)$ be metric spaces and $f$ a mapping of $X$ into $Y$. Let $\tau$ and $\tau_1$ be the topologies determined by $d$ and $d_1$, respectively. Then $f:(X, \tau) \to (Y, \tau_1)$ is continuous if and only if $x_n \to x \implies f(x_n) \to f(x)$, that is, if $x_1, x_2, ..., x_n,...$ is a sequence of points in $(X, d)$ converging to $x$, then the sequence of points $f(x_1), f(x_2),...,f(x_n),...$ in $(Y, d_1)$ converges to $f(x)$.
+\end{theorem}
+
+\begin{theorem}
+Let $(X,d)$ and $(Y, d_1)$ be a metric spaces, $f$ a mapping of $X$ into $Y$, and $\tau$ and $\tau_1$ the topologies determined by $d$ and $d_1$ respectively. Then $f: (X,\tau) \to (T, \tau_1)$ is continuous if and only if for each $x_0 \in X$ and $\epsilon > 0$, there exists a $\delta > 0$ such that $x \in X$ and $d(x, x_0) < \delta \implies d_1(f(x), f(x_0))< \epsilon$.
+\end{theorem}
+
+\begin{definition}
+A metric space $(X,d)$ is said to be \textcolor{red}{complete} if every Cauchy sequence in $(X,d)$ converges to a point in $(X,d)$. 
+\end{definition}
+
+
+\begin{definition}
+f $\{x_n\}$ is any sequence, then the sequence $x_{n_1}, x_{n_2},...$ is said to be a \textcolor{red}{subsequence} if $n_1<n_2<n_3<...$ 
+\end{definition}
+
+
+\begin{definition}
+Let $\{x_n\}$ be a sequence in $\mathbb{R}$. Then it is said to be an \textcolor{red}{increasing sequence} if $x_n \leq x_{n+1}$ for all $n\in \mathbb{N}$. It is said to be a \textcolor{red}{decreasing sequence} if $x_n \geq x_{n+1}$ for all $n \in \mathbb{N}$. A sequence which is either increasing or decreasing is said to be \textcolor{red}{monotonic}.
+\end{definition}
+
+
+\begin{definition}
+Let $\{x_n\}$ be sequence in $\mathbb{R}$. Then $n_0 \in \mathbb{N}$ is said t be a peak point if $x_n \leq x_{n_0}$ for every $n \geq n_0$
+\end{definition}
+
+\begin{theorem}
+Let $\{x_n\}$ be a monotonic sequence in $\mathbb{R}$ with the euclidean metric. Then $\{x_n\}$ converges to a point in $\mathbb{R}$ if and only if $\{x_n\}$ is bounded.  
+\end{theorem}
+
+\begin{theorem}
+\textbf{Bolzano-Weierstrass Theorem:} Every bounded sequence in $\mathbb{R}$ with the euclidean metric has a convergent subsequence.
+\end{theorem}
+
+\begin{theorem}
+The metric space $\mathbb{R}$ with the euclidean metric is a complete metric space.
+\end{theorem}
+
+\begin{theorem}
+Let $(X, d)$ be a metric space, $Y$ a subset of $X$, and $d_1$ the metric induced on $Y$ by $d$.
+\begin{enumerate}[label=(\roman*)]
+    \item If $(X,d)$ is a complete metric space and $Y$ is a closed subspace of $(X, d)$, then $(Y, d_1)$ is a complete metric space.
+    \item If $(Y, d_1)$ is a complete metric space, then $Y$ is a closed subspace of $(X,d)$.
+\end{enumerate}
+\end{theorem}
+
+\begin{definition}
+A topological space $(X, \tau)$ is said to be \textcolor{red}{completely metrizable} if there exists a metric $d$ on $X$ such that $\tau$ is the topology on $X$ determined by $d$ and $(X,d)$ is a complete metric space.    
+\end{definition}
+
+\begin{definition}
+A topological space is said to be \textcolor{red}{separable} if it has a countable dense subset. 
+\end{definition}
+
+
+\begin{definition}
+A topological space $(X, \tau)$ is said to be a \textcolor{red}{Polish space} if it is separable and completely metrizable.
+\end{definition}
+
+
+\begin{definition}
+ A topological space $(X, \tau)$ is said to be a \textcolor{red}{Souslin space} if it is Hausdorff and a continuous image of a Polish space. If $A$ is a subset of a topological space $(Y, \tau_1)$ such that with the induced topology $\tau_2$, the space $A, \tau_2$ is a Souslin space, then $A$ is said to be an \textcolor{red}{analytic set} in $(Y, \tau_1)$.
+\\
+
+\textbf{Note:} Every Polish space is a Souslin space. The onverse is false since a Souslin space need not be metrizable. Also, every countable topological space is a Souslin space.   
+\end{definition}
+
+
+\begin{definition}
+Let $(X,d)$ and $(Y, d_1)$ be metric spaces. Then $(X,d)$ is said to be \textcolor{red}{isometric} to $(y, d_1)$ if there exists a bijective mapping $f:X \to Y$ such that for all $x_1$ and $x_2$ in $X$, $d(x_1, x_2) = d_1(f(x_1), f(x_2))$. Such a mapping $f$ is said to be an \textcolor{red}{isometry}   
+\end{definition}
+
+
+\begin{definition}
+ Let $(X, d)$ and $(Y, d_1)$ be metric spaces and $f$ a mapping of $X$ into $Y$. Let $Z = f(X)$, and $d_2$ be the metric induced on $Z$ be $d_1$. If $f:(X, d) \to (Z, d_2)$ is an isometry, then $f$ is said to be an \textcolor{red}{isometric embedding} of $(X, d)$ in $(Y, d_1)$.   
+\end{definition}
+
+
+\begin{definition}
+Let $(X, d)$ and $(Y, d_1)$ be metric spaces and $f$ a mapping of $X$ into $Y$. If $(Y, d_1)$ is a complete metric space, $f: (X,d) \to (Y, d_1)$ is an isometric embedding and $f(X)$ is a dense subset of Y in the associated topological space, then $(Y, d_1)$ is said to be the \textcolor{red}{completion} of $(X,d)$. 
+\end{definition}
+
+
+
+\begin{definition}
+Let $(N, ||\cdot ||)$ be a normed vector space and $d$ the associated metric on the set $N$. Then, $(N, ||\cdot ||)$ is said to be a \textcolor{red}{Banach space} if $(N, d)$ is a complete metric space.  
+\end{definition}
+
+\begin{theorem}
+If $(X,d)$ is a metric space, then it has a completion.
+\end{theorem}
+
+\begin{theorem}
+    Every closed subspace of a complete metric space is complete and every complete metric subspace of a metric space is closed.
+\end{theorem}
+
+\begin{theorem}
+    Every subspace of a separable metric space is separable. (It is not necessarily true that a subspace of a separable topological space is separable.)
+\end{theorem}
+
+\begin{definition}
+Let $f$ be a mapping of a set $X$ into itself. Then a point $x \in X$ is said to be a \textcolor{red}{fixed point} of $f$ if $f(x) = x$.
+\end{definition}
+
+
+\begin{definition}
+Let $(X, d)$ be a metric space and $f$ a mapping of $X$ into itself. Then $f$ is said to be a \textcolor{red}{contraction mapping} if there exists an $r \in (0,1)$ such that
+\begin{align*}
+    d(f(x_1), f(x_2)) \leq r \cdot d(x_1,x_2)
+\end{align*}
+for all $x_1,x_2 \in X$. 
+\end{definition}
+
+\begin{theorem}
+Let $f$ be a contraction mapping of the metric space $(X,d)$. Then $f$ is a continuous mapping.
+\end{theorem}
+
+\begin{definition}
+Let $(X, \tau)$ be any topological space and $A$ any subset of $X$. The largest pen set contained in $A$ is called the \textcolor{red}{interior} of $A$ and is denoted by \textcolor{red}{Int($A$)}. Each point $x \in$ Int($A$) is called an \textcolor{red}{interior point} of $A$. The set Int($X \setminus A$), that is the interior of the complement of $A$, is denoted by \textcolor{red}{Ext($A$)}, and is called the \textcolor{red}{exterior} of $A$ and each point in Ext($A$) is called an \textcolor{red}{exterior point} of $A$. The set $\Bar{A} \setminus Int(A)$ is called the \textcolor{red}{boundary} of A. Each point in the boundary of $A$ is called a \textcolor{red}{boundary point} of $A$.  
+\end{definition}
+
+\newpage
+\section{Homework 8}
+\begin{definition}
+A subset $A$ of a topological space $(X, \tau)$ is said to be \textcolor{red}{nowhere dense} if the set $\Bar{A}$ has an empty interior.
+\end{definition}
+
+
+\begin{definition}
+A topological space $(X, \tau)$ is said to be a \textcolor{red}{Baire space} if for every sequence $\{X_n\}$ of open dense subsets of $X$, the set $\bigcap_{n=1}^\infty X_n$ is dense in $X$. 
+\end{definition}
+
+\begin{theorem}
+Every complete metrizable space is a Baire space.
+\end{theorem}
+
+\begin{theorem}
+\textbf{(Baire Category Theorem:)} Let $(X,d)$ be a complete metric space. If $X_1, X_2, ..., X_n,...$ is a sequence of open dense subsets of $X$, then the set $\bigcap_{n=1}^\infty X_n$ is also dense in $X$.
+\end{theorem}
+
+\begin{definition}
+Let $Y$ be a subset of a topological space $(X, \tau$. If $Y$ is a union of a countable number of nowhere dense subsets of $X$, then $Y$ is said to be a set of the \textcolor{red}{first category} or \textcolor{red}{meager} in $(X, \tau)$. If $Y$ is not first category, then it is said to be a set of the \textcolor{red}{second category} in $(X, \tau)$.
+\end{definition}
+
+\begin{theorem}
+\textbf{(Corollary, Baire Category Theorem):} Let $(X,d)$ be a complete metric space. If $X_1, X_2, ..., X_n,...$ is a sequence of subsets of $X$ such that $X = \bigcup_{n=1}^\infty X_n$, then for at least one $n \in \mathbb{N}$, the set $\Bar{X}_n$ has a non-empty interior, that is, $X_n$ is not nowhere dense. 
+\end{theorem}
+
+\begin{theorem}
+If $Y$ is a first category subset of a Baire space $(X, \tau)$, then the interior of $Y$ is empty.
+\end{theorem}
+
+\begin{theorem}
+If $Y$ is a first category subset of a Baire space $(X, \tau)$ then $X \setminus Y$ is a second category set.
+\end{theorem}
+
+\begin{definition}
+Let $S$ be a subset of a real vector space $V$. The set $S$ is said to be \textcolor{red}{convex} if for each $x,y \in S$ and every real number $0 < \lambda < 1$, the point $\lambda x + (1- \lambda) y$ is in $S$. 
+\end{definition}
+
+\begin{theorem}
+\textbf{(Open mapping theorem):} Let $(B, ||\cdot ||)$ and $(B_1, ||\cdot ||_1)$ be Banach spaces and $L:B\to B_1$ a continuous linear mapping of $B$ onto $B_1$. Then $L$ is an open mapping.
+\end{theorem}
+
+\begin{theorem}
+A one-to-one continuous linear map of one Banach space onto another Banach space is a homeomorphism. In particular, a one-to-one continuous linear map of a Banach space onto itself is a homeomorphism.
+\end{theorem}
+
+
+
+\section{Compactness}
+\begin{definition}
+Let $A$ be a subset of a topological space $(X, \tau)$. Then $A$ is said to be \textcolor{red}{compact} if for every set $I$ and every family of open sets, $O_i, i \in I$ such that $A \subseteq \bigcup_{i \in I} O_i$ there exists a finite subfamily $O_{i_1}, O_{i_2},..., O_{i_n}$ such that $A \subseteq O_{i_1} \cup O_{i_2} \cup ... \cup O_{i_n}$.
+\end{definition}
+
+\begin{definition}
+Let $I$ be a set and $O_i, i \in I$, a family of subsets of $X$. Let $A$ be a subset of $X$. Then  $O_i, i \in I$, is said to be a \textcolor{red}{covering} (or \textcolor{red}{cover}) of $A$ if $A \subseteq \bigcup_{i \in I} O_i$. If each $)_i, i \in I$, is an open set in $(X, \tau)$, then $O_i, i \in I$ is said to be an \textcolor{red}{open covering} of $A$ if $A \subseteq \bigcup_{i \in I} O_i$. A finite subfamily, $O_{i_1}, O_{i_2}, ...,O_{i_n}$ of $O_i, i\in I$, is called a \textcolor{red}{finite subcovering} (of $A$) if $A \subseteq O_{i_1} \cup O_{i_2} \cup ... \cup O_{i_n}$.
+\end{definition}
+
+\begin{definition}
+A subset $A$ of a topological space $(X, \tau)$ is said to be \textcolor{red}{compact} if every open covering of $A$ has a finite subcovering. If the compact subset $A$ equals $X$, then $(X, \tau)$ is said to be a \textcolor{red}{compact space}.   
+\end{definition}
+
+\begin{theorem}
+The closed interval $[0,1]$ is compact.
+\end{theorem}
+
+\newpage
+\subsection{Heine-Borel Theorem}
+\begin{theorem}
+\textbf{(Continuous Mapping of Compact Space is Compact):} Let $(X,\T)$ and $(Y,\T_1)$ be topological spaces and $f : (X,\T) \rightarrow (Y,\T_1)$ be continuous. If $(X,\T)$ is compact then $f(X)$ is compact. 
+\begin{proof}
+    Let $\bigcup_{i\in I} O_i$ be an open cover of $Y$. Then $f^{-1}(\bigcup_{i\in I} O_i)$ is open and $X \subseteq f^{-1}(\bigcup_{i\in I} O_i)$. Since X is compact, then $\exists O_{i1},\dots,O_{ik}$ where $X \subseteq \bigcup_{j=1}^kf^{-1}(O_{ij})$. Then $f(X) \subseteq f(\bigcup_{j=1}^kf^{-1}(O_{ij}))=\bigcup_{j=1}^kf(f^{-1}(O_{ij})) = \bigcup_{j=1}^kO_{ij}$. Thus $f(X) \subseteq \bigcup_{j=1}^kO_{ij}$. 
+    \newline\textbf{Note:} If $f$ is also surjective then $(Y,\T_1)$ is compact.
+\end{proof} 
+\end{theorem}
+\begin{example}
+    $f: \R \rightarrow S^1$, $f(x) = e^{i2\pi x}$\\
+    $f$ is continuous, surjective but $\R$ is not compact thus the converse does not hold. Observe that $f^{-1}$ is continuous and surjective but the inverse is not well defined. Thus bijectivity and $f$, $f^{-1}$ both continuous are required for one space's compactness to imply the other.
+\end{example}
+\begin{theorem}
+Let $(X,\T)$ and $(Y,\T_1)$ be homeomorphic topological spaces. If $(X,\T)$ is compact then $(Y,\T_1)$ is also compact. 
+\end{theorem}
+\begin{example}
+    Let $a,b \in R$, $a<b$. $[a,b]$ is compact.
+\end{example}
+\begin{proof}
+    $[0,1]$ is compact. $f:[0,1] \rightarrow [a,b] $ where $f = a+(b-a)x$ is a homoemorphism. Thus $[a,b]$ is compact. 
+\end{proof}
+\begin{theorem}
+    Let $(X,\T)$ be a topological space and $A \subseteq X$ where $A$ is closed. If $(X,\T)$ is compact then $A$ is compact.  
+\end{theorem}
+\begin{proof}
+    Let $\bigcup_{i\in I} O_i$ be an open cover of $A$. Then $ X \subseteq (\bigcup_{i\in I} O_i) \bigcup (X\setminus A)$. Since X is compact, then $\exists O_{i1},\dots,O_{ik}$ where $X \subseteq (\bigcup_{j=1}^kO_{ij}) \bigcup (X\setminus A)$. So $A \subseteq (\bigcup_{j=1}^kO_{ij}) \bigcup (X\setminus A)$ and $A \subseteq (\bigcup_{j=1}^kO_{ij})$. Thus $A$ is compact. 
+\end{proof}
+\begin{theorem}
+    Let $(X,\T)$ be a topological space and Hausdorff. If $A \subseteq X$ where $A$ is compact then $A$ is closed.
+\end{theorem}
+\begin{proof}
+    Fix $p_0 \in X\setminus A$. Since $X$ is Hausdorff, given $a \in A$, $\exists U,V$ non-empty, open, disjoint sets such that $p_0 \in U$ and $a \in V$. Now let $U_a$ and $V_a$ be families of open sets where $\forall a_i \in A$, $p_0 \in U_i$ and $a_i \in V_i$, with $U_i\in U_a$ and $V_i \in V_a$. Then $A\subseteq \bigcup_{V_i\in V_{a}} V_i$ and since A is compact, $\exists V_{i1},\dots,V_{ik}$ where $A \subseteq \bigcup_{j=1}^kV_{ij}$. Thus for corresponding $U_i$, $p_0 \in \bigcap_{j=1}^kU_{ij} \subseteq X\setminus A$. Thus $\bigcup_{p \in X\setminus A}(\bigcap_{j=1}^kU_{ij}) \subseteq X\setminus A$ and $X\setminus A$ is open so $A$ is closed.
+\end{proof}
+\begin{example}
+    Let $(X,\T)$ be a metrizable space. If $A \subseteq X$ where $A$ is compact then $A$ is closed
+\end{example}
+\begin{proof}
+    Every metrizable space is Hausdorff. Thus previous theorem holds and $A$ is closed. 
+\end{proof}
+\begin{theorem}
+    Let $A \subseteq \R$. If $A$ is compact then $A$ is bounded.
+\end{theorem}
+\begin{proof}
+    Suppose $A$ not bounded. Then let $A \subseteq \bigcup_{n=1}^\infty (-n,n)$ be an open  of $A$. By compactness of $A$, $\exists n_1, n_2, \dots, n_k \in \mathbb{N}$ where $A \subseteq \bigcup_{i=1}^{k} (-n_i,n_i)$. Then $M =\max\{n_1, \dots, n_k\}$ so $A \subseteq (-M,M)$. Thus $A$ is bounded. Contradiction.
+\end{proof}
+\begin{definition}
+    $A \subseteq X$ of a metric space, $(X,d)$, is said to be \textcolor{red}{bounded} if $\exists r \in \R$ such that $d(a_1,a_2) \leq r$, $\forall a_1,a_2 \in A$. 
+\end{definition}
+\begin{theorem}
+    Let $(X,d)$ be a metric space. If $A \subseteq X$ where $A$ is compact then $A$ is closed and bounded. 
+\end{theorem}
+\begin{proof}
+    By the previous theorem, $A$ is closed. Fix $x_0 \in X$ and let $f: (A,\T) \rightarrow \R$ where $f(a) = d(a,x_0)$, $\forall a \in A$. Since $f$ is continuous, $f(A)$ is compact. So $f(A) \subseteq \R$ is bounded. Thus, $\exists M$ such that $\forall a \in A$, $f(a) = d(a,x_0) \leq M$. Let $r = 2M$, since $d(a_1,x_0)+d(a_2,x_0) \leq 2M$ and $d(a_1,a_2) \leq d(a_1,x_0)+d(a_2,x_0)$, then $d(a_1,a_2) \leq r$. Thus $A$ is bounded.
+\end{proof}
+\begin{proof}
+    \textbf{(alternative)} Let $(A,d_a)$ be a compact metric space with $d_a$ induced metric topology. The collection of open balls, $\{B_1(a)\}_{a \in A}$ is an open cover of $A$. Since $A$ is compact, then $\exists a_1, \ldots, a_n$ such that $\{B_1(a_i)\}_{i=1}^n$ is our finite subcover. So $A = \bigcup_{i=1}^n B_1(a_i)$. Take any $a \in A = \bigcup_{i=1}^n B_1(a_i)$. Then there exists $k \in {1, \ldots, n}$ such that $a \in B_1(a_k)$. Thus, $d_a(a, a_k) < 1$. Therefore, we have $d_a(a, a_1) \leq d(a, a_k) + d(a_k, a_1) < 1 + d(a_k, a_1) \leq 1 + \max_k{d(a_k, a_1)} =: r$. Thus, $A \subseteq B_r(a_1)$, and $A$ is bounded.
+\end{proof}
+Embedded in this proof is a proof that compact spaces are \textcolor{red}{totally bounded}.
+\begin{definition}
+    A metric space is totally bounded if and only if for all $\varepsilon > 0$, there exists a finite family of open balls of radius $\varepsilon$ that cover the metric space.
+\end{definition}
+
+Within the proof, there is also a proof that every totally bounded metric space is also bounded.
+
+\begin{theorem}
+    \textbf{(Generalized Heine-Borel):} Let $A\subseteq\R^n$, $n\geq 1$. $A$ is compact if and only if $A$ is closed and bounded. 
+\end{theorem}
+\begin{proof}
+    $(\hookrightarrow)$ Since $\R^n$ with the usual topology, induced by the euclidean metric, is metrizable then $A$ is closed and bounded.\\ 
+    $(\hookleftarrow)$ Since $A$ is bounded, there is some $n$-dimensional closed cube in $\mathbb{R}^n$, $[-r,r] \times \cdots \times [-r,r] = [-r,r]^n$, where $A \subseteq [-r,r]^n$. Since $[-r,r]$ is compact, by Tychonoff's theorem $[-r,r]^n$ is compact. Thus $A$ is a closed subset of a compact space so $A$ is compact.
+\end{proof}
+
+It is natural to think about if other metric spaces have their own Heine-Borel type theorem This turns out to be a thing.
+
+\begin{definition}
+    A metric space $(X,d)$ has the \textcolor{red}{Heine-Borel property} if and only if every closed and bounded subset of $X$ is compact.
+\end{definition}
+
+What you may find surprising is that the Heine-Borel property is not preserved under homeomorphism.
+
+\begin{example}
+    Consider the metric $\rho(x,y) := \min\{|x-y|, 1\}$ (exercise to check that this is a metric). Observe that the identity from $\R$ with the Euclidean topology to $(\mathbb{R}, \rho)$ is a homeomorphism (also exercise).  Note that the collection of all open balls of radius at most $1$ form a basis for the Euclidean topology in $\R$. These open balls also exist in also form a basis in $(\R, \rho)$, so $\rho$ generates the same topology as the Euclidean topology. However, $\R$ with the Euclidean topology has the Heine-Borel property, while $(\R, \rho)$ does not. This is because $\R$ is closed and bounded with respect to $\rho$ but the open cover $\{(-n,n)\}_{n \in \N}$ does not have a finite subcover of $\R$.
+\end{example}
+
+\begin{definition}
+    Let $(X, d)$ be a metric space. $(X, d)$ is \textcolor{red}{sequentially compact} if every sequence $(x_n)_{n \in \mathbb{N}} \subseteq X$ has a convergent subsequence $(x_{n_k})_{k \in \mathbb{N}}$ such that $\lim_{k \to \infty} x_{n_k} = x$, $x \in X$.
+\end{definition}
+\begin{example}
+    Let $A\subseteq\R^n$. If $A$ is closed and bounded then $A$ is sequentially compact.
+\end{example}
+\begin{proof}
+Let $(x_n)_{n \in \mathbb{N}}$ be any sequence of points in $A$. Since $A$ is bounded, the sequence $(x_n)$ is bounded.  By the Bolzano--Weierstrass Theorem, every bounded sequence in $\mathbb{R}^n$ has a convergent subsequence. Hence, there exists a subsequence $(x_{n_k})_{k \in \mathbb{N}}$ and a point $x \in \mathbb{R}^n$ such that $\lim_{k \to \infty} x_{n_k} = x$. Because $A$ is closed and $x_{n_k} \in A$ for all $k$, it follows that $x \in A$.  Therefore, $(x_{n_k})$ converges to a point in $A$, which shows that $A$ is sequentially compact.
+\end{proof}
+\begin{theorem}
+    \textbf{(Sequential Compactness equivalence in Metric Spaces):}Let $(X, d)$ be a metric space. $(X, d)$ is compact if and only if it is sequentially compact.
+\end{theorem}
+\begin{proof}
+    $(\hookrightarrow)$ Let $(x_n)_{n \in \mathbb{N}}$ be any sequence of points in $X$. Since $X$ is compact, cover $X$ with finitely many open balls $B_{1/k}(x)$ for $k>0$. Then one of the balls in this finite subcover contains infinitely many terms of $(x_n)$. Call it $B_{1/k}(x_0)$ for $x_0\in X$. Thus let $(x_n^{(1)})$ be the subsequence in $B_1(x_0)$, $(x_n^{(2)})$ be the subsequence in $B_{1/2}(x_0)$ and so on for $r =1/3, 1/4, \dots$, where $B_1(x_0) \supset B_{1/2}(x_0) \supset \dots$. Let $\{(x_{n_k}) :x_{n_k}^{(k)} \in B_{1/k}(x_0)\}$ with $x_{n_1}< x_{n_2} < \dots$. Thus $d(x_{n_k},x_0) < \frac{1}{k}$. Now, let $\varepsilon>0$. Choose $K\in\mathbb{N}$ such that $1/K<\varepsilon$. For all $k\ge K$, we have $d(x_{n_k},x_0)<1/k\le 1/K<\varepsilon$. So by the definition of convergence in a metric space, $x_{n_k}\to x_0$ as $k\to\infty$. Thus $X$ is sequentially compact.\\
+    $(\hookleftarrow)$ Suppose $X$ is not compact. Let $\bigcup_{i\in I} O_i$ be an open cover of $X$ and let $O_{x_1} \subset \bigcup_{i\in I} O_i$ be some finite sub-collection. Let $(x_n)$ be a sequence in $X$ as follows. Pick $x_1, x_2 \in X$ where $x_1 \in O_{x_1}$ and $x_2 \notin O_{x_1}$. Then pick $x_3 \in X$ where for some finite sub-collection $O_{x_2}$, $x_1,x_2 \in O_{x_1} \cup O_{x_2}$ and $x_3 \notin O_{x_1} \cup O_{x_2}$. Thus for $x_1,\dots,x_{k-1} \in \bigcup_{i=1}^{k-1}O_{x_i}$ then $x_k \notin \bigcup_{i=1}^{k-1}O_{x_i}$. Now since $X$ is sequentially compact, $(x_{n_k}) \rightarrow x \in X$ so $\exists O_x \in \bigcup_{i\in I} O_i$ such that $x \in O_x$. Thus since $O_x$ is open, $\exists K \text{ such that } \forall k \ge K, \; x_{n_k} \in O_x$. And $\exists O_{x_m}$ such that $x \in O_{x_m} = O_x$ where $x_k \notin \bigcup_{i \leq m} O_{x_i}$ since $\forall k \ge K, \; x_k \notin \bigcup_{i=1}^{k-1}O_{x_i}$.  Thus $\forall k \geq K, x_{n_k} \notin O_x$. Contradiction.
+\end{proof}
+
+We can see that using sequential compactness is useful in proving other theorems without using (covering) compactness. For example, we can prove that the continuous image of a compact set is also compact.
+
+\begin{proof}
+    Take any sequence of points $(f(x_n))_{n \in \N}$ in $F(X)$. Since we assume $X$ to be compact, the sequence $(x_n)_{n \in \N}$ has a convergent subsequence $(x_{n_k})_{k \in \N}$ that converges to some point in $X$. Thus, $\lim_{k \to \infty} x_{n_k} = x \in X$. Since $f$ is continuous, $\lim_{k \to \infty} f(x_{n_k}) = f(\lim_{k \to \infty} x_{n_k}) = f(x) \in f(X)$. So, $(f(x_{n_k})_{k \in \N}$ is a convergent subsequence of $(f(x_n))_{n \in \N}$. Since $(f(x_n))_{n \in \N}$ is an arbitrary sequence of points in $f(X)$, we deduce that $f(X)$ is sequentially compact, and therefore compact.
+\end{proof}
+
+
+\end{document}
